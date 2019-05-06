@@ -80,7 +80,6 @@ function onWindowResize() {
 }// resize window
 
 function onDocumentMouseDown(event) {
-    console.log("new click")
     //event.preventDefault();
   
     mouse.x = (event.clientX / renderer.domElement.clientWidth) * 2 - 1;
@@ -122,9 +121,11 @@ function onDocumentMouseDown(event) {
         }
         
     }else{
-        selected = null;
-        skirts[activeSkirt].visible = false;
-        activeSkirt = null;
+        if(selected != null){
+            selected = null;
+            skirts[activeSkirt].visible = false;
+            activeSkirt = null;
+        }
     }
     
    
@@ -198,8 +199,6 @@ function createSkirt(m, o, reArr){
     
     arround.holes.push(hole);
         
-    var helper = new THREE.Box3Helper( box, 0xffff00 );
-    scene.add( helper );
     var geometry = new THREE.ShapeGeometry( arround );
     var material = new THREE.MeshBasicMaterial( { color: m.material.color, side: THREE.DoubleSide } );
     var mesh = new THREE.Mesh( geometry, material ) ;
