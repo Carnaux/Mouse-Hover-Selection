@@ -9,7 +9,7 @@ var selected = null;
 var activeSkirt;
 var hoveredSkirt;
 
-
+var tempLines = [];
 
 var mouse = new THREE.Vector2();
 
@@ -37,9 +37,7 @@ cube.position.set(5,0,0)
 
 let skirt1 = createSkirt(cube, null, boundingBoxes);
 skirts.push(skirt1);
-scene.add(skirt1);
-skirt1.rotation.x = Math.PI/2;
-skirt1.visible = false;
+
 
 
 var geometry = new THREE.SphereGeometry( 1, 32, 32 );
@@ -49,11 +47,10 @@ cube2.position.set(-4,0,0)
 scene.add( cube2 );
 objects.push(cube2);
 
+
 let skirt2 = createSkirt(cube2, null, boundingBoxes);
 skirts.push(skirt2);
-scene.add(skirt2);
-skirt2.rotation.x = Math.PI/2;
-skirt2.visible = false;
+
 camera.position.z = 10;
 
 window.addEventListener( 'resize', onWindowResize, false );
@@ -101,6 +98,10 @@ function onDocumentMouseDown(event) {
                 }
             }
             skirts[activeSkirt].visible = true;
+           if(selected.children.length > 0){
+               
+               
+           }
         }else{
             if(selected.id == intersects[0].object.id){
                 selected = null;
@@ -129,7 +130,7 @@ function onDocumentMouseDown(event) {
     }
     
    
-         
+    
 } // select obj with mouse click
 
 function onDocumentMouseMove(e) {
@@ -202,6 +203,18 @@ function createSkirt(m, o, reArr){
     var geometry = new THREE.ShapeGeometry( arround );
     var material = new THREE.MeshBasicMaterial( { color: m.material.color, side: THREE.DoubleSide } );
     var mesh = new THREE.Mesh( geometry, material ) ;
-    
+    m.add(mesh);
+    mesh.position.set(-m.position.x,-m.position.y,-m.position.z);
+    mesh.rotation.x = Math.PI/2;
+    mesh.visible = false;
+
     return mesh;
+}
+
+function addTo(){
+    cube.add(cube2);
+}
+
+function move(){
+    cube.position.x += 1;
 }
